@@ -13,3 +13,8 @@ variable "tags" {
 }
 
 variable "azurerm_resource_group" {}
+
+variable "subnets" {
+  type        = map(string)
+  description = "Map of subnets in format like {subnet_name = ip}"
+}

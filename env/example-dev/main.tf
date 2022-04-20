@@ -27,4 +27,9 @@ module "azurerm_network--primary" {
   tags                   = merge(local.tags_global, local.tags_billing_1)
   azurerm_resource_group = module.azurerm_resource_group--net.azurerm_resource_group
   address_space          = "10.250.0.0/16"
+  subnets = {
+    "foo" = "10.250.0.0/24"
+    "bar" = "10.250.1.0/24"
+    "baz" = "10.250.2.0/24"
+  }
 }
