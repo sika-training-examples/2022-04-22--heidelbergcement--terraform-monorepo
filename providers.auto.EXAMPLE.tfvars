@@ -1,1 +1,2 @@
-gitlab_token = ""
+gitlab_token            = ""
+azurerm_subscription_id = ""

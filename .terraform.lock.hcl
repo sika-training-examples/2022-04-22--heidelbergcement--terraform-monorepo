@@ -8,3 +8,11 @@ provider "registry.terraform.io/gitlabhq/gitlab" {
     "h1:3XcV7v5tIDzr63l8e8uIoddLJY2cbko6fZLXs4flSiU=",
   ]
 }
+
+provider "registry.terraform.io/hashicorp/azurerm" {
+  version     = "3.2.0"
+  constraints = "3.2.0"
+  hashes = [
+    "h1:jBpu6sdP9+glwdZRN6Fb1YNipZCRNgOM87FuKPJcUsc=",
+  ]
+}
