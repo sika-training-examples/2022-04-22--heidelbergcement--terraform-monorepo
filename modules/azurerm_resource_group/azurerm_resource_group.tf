@@ -29,6 +29,10 @@ resource "azurerm_resource_group" "this" {
   tags     = var.tags
 }
 
+output "azurerm_resource_group" {
+  value = azurerm_resource_group.this
+}
+
 output "id" {
   value = azurerm_resource_group.this.id
 }
