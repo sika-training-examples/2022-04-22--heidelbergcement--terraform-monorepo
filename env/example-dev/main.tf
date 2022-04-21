@@ -38,3 +38,10 @@ module "azurerm_resource_group--vm" {
   name   = "vm"
   tags   = merge(local.tags_global, local.tags_billing_1)
 }
+
+module "azurerm_public_ip--runner0" {
+  source                 = "../../modules/azurerm_public_ip"
+  name                   = "runner0"
+  tags                   = merge(local.tags_global, local.tags_billing_1)
+  azurerm_resource_group = module.azurerm_resource_group--vm.azurerm_resource_group
+}
