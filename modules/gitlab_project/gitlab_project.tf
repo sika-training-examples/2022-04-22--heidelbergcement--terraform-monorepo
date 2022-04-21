@@ -4,6 +4,10 @@ terraform {
       source  = "gitlabhq/gitlab"
       version = "3.13.0"
     }
+    null = {
+      source  = "hashicorp/null"
+      version = "3.1.1"
+    }
   }
 }
 
@@ -31,4 +35,13 @@ resource "gitlab_project" "this" {
   merge_method                     = "ff"
   default_branch                   = "master"
   remove_source_branch_after_merge = true
+}
+
+resource "null_resource" "prevent-destroy" {
+  lifecycle {
+    prevent_destroy = true
+  }
+  depends_on = [
+    gitlab_project.this
+  ]
 }
