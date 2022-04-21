@@ -38,7 +38,3 @@ module "azurerm_resource_group--vm" {
   name   = "vm"
   tags   = merge(local.tags_global, local.tags_billing_1)
 }
-
-output "subnet_ids" {
-  value = module.azurerm_network--primary.subnet_ids
-}
