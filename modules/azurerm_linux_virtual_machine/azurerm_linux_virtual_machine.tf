@@ -9,6 +9,7 @@ resource "azurerm_linux_virtual_machine" "this" {
   location            = var.azurerm_resource_group.location
   resource_group_name = var.azurerm_resource_group.name
   tags                = var.tags
+  custom_data         = var.custom_data
 
   size           = var.size
   admin_username = "adminuser"

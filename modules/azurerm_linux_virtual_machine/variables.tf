@@ -27,3 +27,9 @@ variable "public_ip_address_id" {
   type    = string
   default = null
 }
+
+variable "custom_data" {
+  type        = string
+  default     = null
+  description = "Custom data for Cloud Init"
+}

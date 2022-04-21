@@ -11,10 +11,21 @@ locals {
   tags_billing_2 = {
     BillingID = "2"
   }
-  ssh_public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCslNKgLyoOrGDerz9pA4a4Mc+EquVzX52AkJZz+ecFCYZ4XQjcg2BK1P9xYfWzzl33fHow6pV/C6QC3Fgjw7txUeH7iQ5FjRVIlxiltfYJH4RvvtXcjqjk8uVDhEcw7bINVKVIS856Qn9jPwnHIhJtRJe9emE7YsJRmNSOtggYk/MaV2Ayx+9mcYnA/9SBy45FPHjMlxntoOkKqBThWE7Tjym44UNf44G8fd+kmNYzGw9T5IKpH1E1wMR+32QJBobX6d7k39jJe8lgHdsUYMbeJOFPKgbWlnx9VbkZh+seMSjhroTgniHjUl8wBFgw0YnhJ/90MgJJL4BToxu9PVnH"
+  ssh_public_key                = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCslNKgLyoOrGDerz9pA4a4Mc+EquVzX52AkJZz+ecFCYZ4XQjcg2BK1P9xYfWzzl33fHow6pV/C6QC3Fgjw7txUeH7iQ5FjRVIlxiltfYJH4RvvtXcjqjk8uVDhEcw7bINVKVIS856Qn9jPwnHIhJtRJe9emE7YsJRmNSOtggYk/MaV2Ayx+9mcYnA/9SBy45FPHjMlxntoOkKqBThWE7Tjym44UNf44G8fd+kmNYzGw9T5IKpH1E1wMR+32QJBobX6d7k39jJe8lgHdsUYMbeJOFPKgbWlnx9VbkZh+seMSjhroTgniHjUl8wBFgw0YnhJ/90MgJJL4BToxu9PVnH"
+  runner_cloud_init_custom_data = <<EOF
+#cloud-config
+
+runcmd:
+  - curl -fsSL https://ins.oxs.cz/docker.sh | sudo sh
+  - curl -O https://raw.githubusercontent.com/sikalabs/sikalabs-gitlab-runner/master/create-runner.sh
+  - curl -O https://raw.githubusercontent.com/sikalabs/sikalabs-gitlab-runner/master/register-runner.sh
+  - sudo sh ./create-runner.sh
+  - sudo sh ./register-runner.sh https://gitlab.sikademo.com ${var.gitlab_registration_token}
+EOF
   runners = {
     "1" = {
-      size = "Standard_B1s"
+      size        = "Standard_B1s"
+      custom_data = base64encode(local.runner_cloud_init_custom_data)
     }
   }
 }
@@ -64,6 +75,7 @@ module "azurerm_linux_virtual_machine--runner" {
   azurerm_resource_group = module.azurerm_resource_group--vm.azurerm_resource_group
   subnet_id              = module.azurerm_network--primary.subnet_ids["vms"]
   size                   = each.value["size"]
+  custom_data            = each.value["custom_data"]
   public_key             = local.ssh_public_key
   public_ip_address_id   = module.azurerm_public_ip--runner[each.key].id
 }
