@@ -33,3 +33,9 @@ module "azurerm_network--primary" {
     "baz" = "10.250.2.0/24"
   }
 }
+
+module "azurerm_resource_group--vm" {
+  source = "../../modules/azurerm_resource_group"
+  name   = "vm"
+  tags   = merge(local.tags_global, local.tags_billing_1)
+}
