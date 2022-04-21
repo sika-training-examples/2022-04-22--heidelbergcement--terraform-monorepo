@@ -11,6 +11,7 @@ locals {
   tags_billing_2 = {
     BillingID = "2"
   }
+  ssh_public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCslNKgLyoOrGDerz9pA4a4Mc+EquVzX52AkJZz+ecFCYZ4XQjcg2BK1P9xYfWzzl33fHow6pV/C6QC3Fgjw7txUeH7iQ5FjRVIlxiltfYJH4RvvtXcjqjk8uVDhEcw7bINVKVIS856Qn9jPwnHIhJtRJe9emE7YsJRmNSOtggYk/MaV2Ayx+9mcYnA/9SBy45FPHjMlxntoOkKqBThWE7Tjym44UNf44G8fd+kmNYzGw9T5IKpH1E1wMR+32QJBobX6d7k39jJe8lgHdsUYMbeJOFPKgbWlnx9VbkZh+seMSjhroTgniHjUl8wBFgw0YnhJ/90MgJJL4BToxu9PVnH"
 }
 
 
@@ -44,4 +45,15 @@ module "azurerm_public_ip--runner0" {
   name                   = "runner0"
   tags                   = merge(local.tags_global, local.tags_billing_1)
   azurerm_resource_group = module.azurerm_resource_group--vm.azurerm_resource_group
+}
+
+module "azurerm_linux_virtual_machine--runner0" {
+  source                 = "../../modules/azurerm_linux_virtual_machine"
+  name                   = "runner0"
+  tags                   = merge(local.tags_global, local.tags_billing_1)
+  azurerm_resource_group = module.azurerm_resource_group--vm.azurerm_resource_group
+  subnet_id              = module.azurerm_network--primary.subnet_ids["vms"]
+  size                   = "Standard_B1s"
+  public_key             = local.ssh_public_key
+  public_ip_address_id   = module.azurerm_public_ip--runner0.id
 }
