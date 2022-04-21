@@ -13,3 +13,13 @@ module "azurerm_storage--terraform-state" {
     terraform = "private"
   }
 }
+
+resource "azurerm_management_lock" "terraform-state" {
+  lifecycle {
+    prevent_destroy = true
+  }
+  name       = "terraform-state"
+  scope      = module.azurerm_storage--terraform-state.id
+  lock_level = "CanNotDelete"
+  notes      = "Can't delete Terraform state!"
+}
