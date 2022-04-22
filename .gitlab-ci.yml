@@ -5,7 +5,29 @@ stages:
   - plan
   - apply
 
+variables:
+  PLAN: plan.cache
+  PLAN_JSON: plan.json
+
+before_script:
+  - shopt -s expand_aliases
+  - alias convert_report="jq -r '([.resource_changes[]?.change.actions?]|flatten)|{\"create\":(map(select(.==\"create\"))|length),\"update\":(map(select(.==\"update\"))|length),\"delete\":(map(select(.==\"delete\"))|length)}'"
+  - cp $variables_auto_tfvars variables.auto.tfvars
+  - cp $providers_auto_tfvars providers.auto.tfvars
+
 terraform format check:
   stage: lint
   script:
     - make fmt-check
+
+plan:
+  stage: plan
+  script:
+    - terraform init
+    - terraform plan -out=$PLAN
+    - terraform show --json $PLAN | convert_report > $PLAN_JSON
+  artifacts:
+    paths:
+      - $PLAN
+    reports:
+      terraform: $PLAN_JSON
