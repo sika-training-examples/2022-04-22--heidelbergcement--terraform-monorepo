@@ -1,0 +1,12 @@
+# Example: https://raw.githubusercontent.com/infracost/infracost/master/infracost-usage-example.yml
+version: 0.1
+resource_usage:
+  module.env--example-dev.module.azurerm_storage--terraform-state.azurerm_storage_account.this:
+    storage_gb: 1
+    monthly_write_operations: 1000
+    monthly_read_operations: 1000
+    monthly_data_retrieval_gb: 1
+    monthly_data_write_gb: 1
+  module.env--example-dev.module.azurerm_linux_virtual_machine--runner["1"].azurerm_linux_virtual_machine.this:
+    os_disk:
+      monthly_disk_operations: 10000000

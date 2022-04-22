@@ -5,7 +5,7 @@ fmt-check:
 	terraform fmt -recursive -check
 
 infracost:
-	infracost breakdown --path .
+	infracost breakdown --path . --usage-file infracost-usage.yml
 
 setup-git-hooks:
 	rm -rf .git/hooks
