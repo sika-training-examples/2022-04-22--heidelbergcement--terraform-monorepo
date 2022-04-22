@@ -35,3 +35,12 @@ plan:
       - $PLAN
     reports:
       terraform: $PLAN_JSON
+
+apply:
+  stage: apply
+  script:
+    - terraform init
+    - terraform apply $PLAN
+  when: manual
+  only:
+    - master
