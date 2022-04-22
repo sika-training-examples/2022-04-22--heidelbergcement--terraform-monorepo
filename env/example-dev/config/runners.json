@@ -1,5 +1,8 @@
 {
   "1": {
     "size": "Standard_B1s"
+  },
+  "2": {
+    "size": "Standard_B1s"
   }
 }
