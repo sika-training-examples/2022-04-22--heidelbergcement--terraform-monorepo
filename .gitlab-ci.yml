@@ -1,0 +1,11 @@
+image: sikalabs/ci
+
+stages:
+  - lint
+  - plan
+  - apply
+
+terraform format check:
+  stage: lint
+  script:
+    - make fmt-check
