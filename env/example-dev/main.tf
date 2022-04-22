@@ -24,8 +24,7 @@ runcmd:
 EOF
   runners = {
     "1" = {
-      size        = "Standard_B1s"
-      custom_data = base64encode(local.runner_cloud_init_custom_data)
+      size = "Standard_B1s"
     }
   }
 }
@@ -75,7 +74,7 @@ module "azurerm_linux_virtual_machine--runner" {
   azurerm_resource_group = module.azurerm_resource_group--vm.azurerm_resource_group
   subnet_id              = module.azurerm_network--primary.subnet_ids["vms"]
   size                   = each.value["size"]
-  custom_data            = each.value["custom_data"]
+  custom_data            = base64encode(local.runner_cloud_init_custom_data)
   public_key             = local.ssh_public_key
   public_ip_address_id   = module.azurerm_public_ip--runner[each.key].id
 }
