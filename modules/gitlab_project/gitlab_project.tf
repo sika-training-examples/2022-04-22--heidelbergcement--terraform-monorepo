@@ -33,6 +33,12 @@ variable "unprotected_variables" {
   default     = {}
 }
 
+variable "unprotected_file_variables" {
+  type        = map(string)
+  description = "Gitlab CI unprotected file Variables"
+  default     = {}
+}
+
 resource "gitlab_project" "this" {
   namespace_id                     = var.namespace_id
   name                             = var.name
@@ -49,6 +55,15 @@ resource "gitlab_project_variable" "unprotected" {
   key       = each.key
   value     = each.value
   protected = false
+}
+
+resource "gitlab_project_variable" "file_unprotected" {
+  for_each      = var.unprotected_file_variables
+  project       = gitlab_project.this.id
+  key           = each.key
+  value         = each.value
+  protected     = false
+  variable_type = "file"
 }
 
 resource "null_resource" "prevent-destroy" {
