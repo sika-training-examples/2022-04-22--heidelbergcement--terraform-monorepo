@@ -22,11 +22,7 @@ runcmd:
   - sudo sh ./create-runner.sh
   - sudo sh ./register-runner.sh https://gitlab.sikademo.com ${var.gitlab_registration_token}
 EOF
-  runners = {
-    "1" = {
-      size = "Standard_B1s"
-    }
-  }
+  runners                       = jsondecode(file("./env/example-dev/config/runners.json"))
 }
 
 
