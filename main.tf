@@ -1,5 +1,8 @@
 module "env--gitlab" {
   source = "./env/gitlab"
+  config = {
+    ci_arm_config = var.ci_arm_config
+  }
 }
 
 module "env--example-dev" {

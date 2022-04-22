@@ -5,9 +5,10 @@ module "gitlab_project--k8s-demo" {
 }
 
 module "gitlab_project--terraform" {
-  source       = "../../modules/gitlab_project"
-  namespace_id = 1
-  name         = "terraform"
+  source                = "../../modules/gitlab_project"
+  namespace_id          = 1
+  name                  = "terraform"
+  unprotected_variables = var.config.ci_arm_config
 }
 
 resource "null_resource" "prevent-destroy" {
