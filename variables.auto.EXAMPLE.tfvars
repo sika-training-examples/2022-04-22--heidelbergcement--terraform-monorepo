@@ -5,3 +5,4 @@ ci_arm_config = {
   ARM_SUBSCRIPTION_ID = ""
   ARM_TENANT_ID       = ""
 }
+INFRACOST_API_KEY = ""

@@ -5,10 +5,13 @@ module "gitlab_project--k8s-demo" {
 }
 
 module "gitlab_project--terraform" {
-  source                = "../../modules/gitlab_project"
-  namespace_id          = 1
-  name                  = "terraform"
-  unprotected_variables = var.config.ci_arm_config
+  source       = "../../modules/gitlab_project"
+  namespace_id = 1
+  name         = "terraform"
+  unprotected_variables = merge(
+    var.config.ci_arm_config,
+    { INFRACOST_API_KEY = var.config.INFRACOST_API_KEY }
+  )
   unprotected_file_variables = {
     "variables_auto_tfvars" = file("variables.auto.tfvars")
     "providers_auto_tfvars" = file("providers.auto.tfvars")

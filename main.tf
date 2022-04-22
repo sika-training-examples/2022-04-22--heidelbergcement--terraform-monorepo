@@ -1,7 +1,8 @@
 module "env--gitlab" {
   source = "./env/gitlab"
   config = {
-    ci_arm_config = var.ci_arm_config
+    ci_arm_config     = var.ci_arm_config
+    INFRACOST_API_KEY = var.INFRACOST_API_KEY
   }
 }
 
