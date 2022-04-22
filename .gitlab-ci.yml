@@ -20,6 +20,10 @@ terraform format check:
   script:
     - make fmt-check
 
+cache:
+  paths:
+    - .terraform
+
 plan:
   stage: plan
   script:
