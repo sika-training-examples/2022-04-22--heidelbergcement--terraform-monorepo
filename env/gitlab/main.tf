@@ -10,7 +10,10 @@ module "gitlab_project--terraform" {
   name         = "terraform"
   unprotected_variables = merge(
     var.config.ci_arm_config,
-    { INFRACOST_API_KEY = var.config.INFRACOST_API_KEY }
+    {
+      INFRACOST_API_KEY = var.config.INFRACOST_API_KEY
+      GITLAB_TOKEN      = var.config.GITLAB_TOKEN
+    }
   )
   unprotected_file_variables = {
     "variables_auto_tfvars" = file("variables.auto.tfvars")

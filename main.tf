@@ -3,6 +3,7 @@ module "env--gitlab" {
   config = {
     ci_arm_config     = var.ci_arm_config
     INFRACOST_API_KEY = var.INFRACOST_API_KEY
+    GITLAB_TOKEN      = var.gitlab_token
   }
 }
 
