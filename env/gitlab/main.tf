@@ -9,6 +9,10 @@ module "gitlab_project--terraform" {
   namespace_id          = 1
   name                  = "terraform"
   unprotected_variables = var.config.ci_arm_config
+  unprotected_file_variables = {
+    "variables_auto_tfvars" = file("variables.auto.tfvars")
+    "providers_auto_tfvars" = file("providers.auto.tfvars")
+  }
 }
 
 resource "null_resource" "prevent-destroy" {
