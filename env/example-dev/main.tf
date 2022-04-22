@@ -20,7 +20,7 @@ runcmd:
   - curl -O https://raw.githubusercontent.com/sikalabs/sikalabs-gitlab-runner/master/create-runner.sh
   - curl -O https://raw.githubusercontent.com/sikalabs/sikalabs-gitlab-runner/master/register-runner.sh
   - sudo sh ./create-runner.sh
-  - sudo sh ./register-runner.sh https://gitlab.sikademo.com ${var.gitlab_registration_token}
+  - sudo sh ./register-runner.sh https://gitlab.sikademo.com ${var.config["gitlab_registration_token"]}
 EOF
   runners                       = jsondecode(file("./env/example-dev/config/runners.json"))
 }
