@@ -27,6 +27,12 @@ variable "visibility_level" {
   default     = "public"
 }
 
+variable "unprotected_variables" {
+  type        = map(string)
+  description = "Gitlab CI unprotected Variables"
+  default     = {}
+}
+
 resource "gitlab_project" "this" {
   namespace_id                     = var.namespace_id
   name                             = var.name
@@ -35,6 +41,14 @@ resource "gitlab_project" "this" {
   merge_method                     = "ff"
   default_branch                   = "master"
   remove_source_branch_after_merge = true
+}
+
+resource "gitlab_project_variable" "unprotected" {
+  for_each  = var.unprotected_variables
+  project   = gitlab_project.this.id
+  key       = each.key
+  value     = each.value
+  protected = false
 }
 
 resource "null_resource" "prevent-destroy" {
