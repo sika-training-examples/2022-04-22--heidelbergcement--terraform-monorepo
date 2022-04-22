@@ -8,6 +8,7 @@ stages:
 variables:
   PLAN: plan.cache
   PLAN_JSON: plan.json
+  PLAN_JSON_GITLAB: plan.gitlab.json
 
 before_script:
   - shopt -s expand_aliases
@@ -29,12 +30,14 @@ plan:
   script:
     - terraform init
     - terraform plan -out=$PLAN
-    - terraform show --json $PLAN | convert_report > $PLAN_JSON
+    - terraform show --json $PLAN > $PLAN_JSON
+    - cat $PLAN_JSON | convert_report > $PLAN_JSON_GITLAB
+    - infracost breakdown --path $PLAN_JSON --usage-file infracost-usage.yml
   artifacts:
     paths:
       - $PLAN
     reports:
-      terraform: $PLAN_JSON
+      terraform: $PLAN_JSON_GITLAB
 
 apply:
   stage: apply
